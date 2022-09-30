@@ -1,26 +1,37 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<script setup>
+import {ref,onMounted,computed,watch} from 'vue'
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+const todo = ref([])
+const name = ref('')
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+const input_content = ref('')
+const input_category = ref(null)
+
+const todos_asc = computed(()=> todos_asc.value.sort((a,b)=>{
+  return a.createdAt - b.createdAt
+}))
+
+watch(name, (newVal)=>{
+  localStorage.setItem('name',newVal)
+})
+
+onMounted(()=>{
+  name.value = localStorage.getItem('name')||''
+})
+
 </script>
 
+
+<template>
+  <main class="app">
+    <section class="greeting">
+      <h2 class="title"> what's up,
+        <input type="text" placeholder="Name here" v-model="name" />
+      </h2>
+    </section>
+  </main>
+</template>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
