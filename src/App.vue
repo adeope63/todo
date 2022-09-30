@@ -1,18 +1,13 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-
+//Declaring all references for v-model
 const todo = ref([]);
 const name = ref("");
 
 const input_content = ref("");
 const input_category = ref(null);
 
-// const todos_asc = computed(() =>
-//   todos_asc.value.sort((a, b) => {
-//     return b.createdAt - a.createdAt;
-//   })
-// );
-
+//Adding Todo and checking if the Input Box or Category Option is empty
 const addTodo = () => {
   if (input_content.value.trim() === "" || input_category === null) {
     return;
@@ -26,19 +21,22 @@ const addTodo = () => {
   });
 };
 
-
+//Deleting Todo for the Array and LocalStorage
 const removeTodo = todos =>{
   todo.value = todo.value.filter( t => t != todos )
 }
 
+//Noticing and Storing the Todo to the LocalStorage
 watch(todo,newVal=>{
   localStorage.setItem('todo',JSON.stringify(newVal))
 },{deep:true})
 
+//Adding the Name to the LocalStorage
 watch(name, (newVal) => {
   localStorage.setItem("name", newVal);
 });
 
+//Getting Todo for the Local Storage
 onMounted(() => {
   name.value = localStorage.getItem("name") || "";
   todo.value = JSON.parse(localStorage.getItem('todo')|| [])
@@ -117,5 +115,3 @@ onMounted(() => {
     </section>
   </main>
 </template>
-
-<style></style>
